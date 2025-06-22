@@ -23,13 +23,11 @@
                        class="shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 >
             </div>
-            <div class="mx-auto col-span-3 w-full">
-                <label for="invitation" class="block text-gray-700 font-bold mb-2">Invitation:</label>
+        <div class="mx-auto col-span-3 w-full">
+            <label for="invitation" class="block text-gray-700 font-bold mb-2">Invitation:</label>
                 <textarea id="invitation" name="invitation" required rows="10"
                           class="shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                          >
-                    {{ party.invitation }}
-                </textarea>
+                          >{{ party.invitation }}</textarea>
             </div>
             <div class="w-full col-span-3 text-center">
                 <button type="submit" class="btn-default focus:outline-none focus:shadow-outline">Save</button>
