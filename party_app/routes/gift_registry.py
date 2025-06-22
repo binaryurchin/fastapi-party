@@ -28,27 +28,6 @@ def gift_registry_page(
         context={"party": party, "gifts": gifts},
     )
 
-
-# Endpoint returns details about a single gift. This URL includes two parameters:
-# party_id and gift_id. gift_id is used to obtain gift details and pass them to the template.
-# This endpoint is used when the user clicks the "Cancel" button
-@router.get("/{gift_id}", name="gift_detail_partial", response_class=HTMLResponse)
-def gift_detail_partial(
-        party_id: UUID,
-        gift_id: UUID,
-        request: Request,
-        templates: Templates,
-        session: Session = Depends(get_session),
-):
-    gift = session.get(Gift, gift_id)
-    party = session.get(Party, party_id)
-    return templates.TemplateResponse(
-        request=request,
-        name="gift_registry/partial_gift_detail.html",
-        context={"party": party, "gift": gift},
-    )
-
-
 # Endpoint returns a form for editing a gift. This URL includes two parameters: party_id and gift_id.
 # gift_id allows us to obtain gift details and prefill the edit form
 @router.get("/{gift_id}/edit", name="gift_update_partial", response_class=HTMLResponse)
@@ -114,4 +93,61 @@ def gift_delete_partial(
         request=request,
         name="gift_registry/partial_gift_removed.html",
         context={"gift": gift}
+    )
+
+@router.get("/new", name="gift_create_partial", response_class=HTMLResponse)
+def gift_create_partial(
+        party_id: UUID,
+        request: Request,
+        templates: Templates,
+):
+    return templates.TemplateResponse(
+        request=request,
+        name="gift_registry/partial_gift_create.html",
+        context={"party_id": party_id},
+    )
+
+@router.post("/new", name="gift_create_save_partial", response_class=HTMLResponse)
+def gift_create_save_partial(
+        party_id: UUID,
+        request: Request,
+        templates: Templates,
+        gift_form: Annotated[GiftForm, Form()],
+        session: Session = Depends(get_session),
+):
+    party = session.get(Party, party_id)
+    if not party:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Party not found")
+    gift = Gift(
+        gift_name=gift_form.gift_name,
+        price=gift_form.price,
+        link=gift_form.link,
+        party_id=party_id
+    )
+    session.add(gift)
+    session.commit()
+    session.refresh(gift)
+    return templates.TemplateResponse(
+        request=request,
+        name="gift_registry/partial_gift_detail.html",
+        context={"gift": gift, "party": party, }
+    )
+
+# Endpoint returns details about a single gift. This URL includes two parameters:
+# party_id and gift_id. gift_id is used to obtain gift details and pass them to the template.
+# This endpoint is used when the user clicks the "Cancel" button
+@router.get("/{gift_id}", name="gift_detail_partial", response_class=HTMLResponse)
+def gift_detail_partial(
+        party_id: UUID,
+        gift_id: UUID,
+        request: Request,
+        templates: Templates,
+        session: Session = Depends(get_session),
+):
+    gift = session.get(Gift, gift_id)
+    party = session.get(Party, party_id)
+    return templates.TemplateResponse(
+        request=request,
+        name="gift_registry/partial_gift_detail.html",
+        context={"party": party, "gift": gift},
     )
