@@ -97,3 +97,21 @@ def gift_update_save_partial(
         name="gift_registry/partial_gift_detail.html",
         context={"gift": gift, "party": party, }
     )
+
+@router.delete("/{gift_id}/delete", name="gift_remove_partial", response_class=HTMLResponse)
+def gift_delete_partial(
+        gift_id: UUID,
+        request: Request,
+        templates: Templates,
+        session: Session = Depends(get_session),
+):
+    gift = session.get(Gift, gift_id)
+    if not gift:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Gift not found")
+    session.delete(gift)
+    session.commit()
+    return templates.TemplateResponse(
+        request=request,
+        name="gift_registry/partial_gift_removed.html",
+        context={"gift": gift}
+    )
