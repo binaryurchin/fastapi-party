@@ -6,6 +6,7 @@
     --font-sans: "Roboto", sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-green-900: oklch(0.393 0.095 152.535);
     --color-sky-200: oklch(0.901 0.058 230.902);
     --color-gray-50: oklch(0.985 0.002 247.839);
     --color-gray-500: oklch(0.551 0.027 264.364);
@@ -285,6 +286,9 @@
   .mb-5 {
     margin-bottom: calc(var(--spacing) * 5);
   }
+  .ml-3 {
+    margin-left: calc(var(--spacing) * 3);
+  }
   .ml-auto {
     margin-left: auto;
   }
@@ -345,6 +349,15 @@
   .h-full {
     height: 100%;
   }
+  .w-2 {
+    width: calc(var(--spacing) * 2);
+  }
+  .w-2\/5 {
+    width: calc(2/5 * 100%);
+  }
+  .w-4 {
+    width: calc(var(--spacing) * 4);
+  }
   .w-\[40px\] {
     width: 40px;
   }
@@ -353,6 +366,9 @@
   }
   .max-w-6xl {
     max-width: var(--container-6xl);
+  }
+  .min-w-fit {
+    min-width: fit-content;
   }
   .flex-shrink {
     flex-shrink: 1;
@@ -446,6 +462,9 @@
   .bg-gray-50 {
     background-color: var(--color-gray-50);
   }
+  .bg-green-900 {
+    background-color: var(--color-green-900);
+  }
   .bg-sky-200 {
     background-color: var(--color-sky-200);
   }
@@ -470,11 +489,17 @@
   .p-6 {
     padding: calc(var(--spacing) * 6);
   }
+  .p-8 {
+    padding: calc(var(--spacing) * 8);
+  }
   .p-10 {
     padding: calc(var(--spacing) * 10);
   }
   .px-1 {
     padding-inline: calc(var(--spacing) * 1);
+  }
+  .px-2 {
+    padding-inline: calc(var(--spacing) * 2);
   }
   .px-3 {
     padding-inline: calc(var(--spacing) * 3);
@@ -518,6 +543,9 @@
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
   }
+  .text-\[10px\] {
+    font-size: 10px;
+  }
   .leading-tight {
     --tw-leading: var(--leading-tight);
     line-height: var(--leading-tight);
@@ -546,6 +574,9 @@
   }
   .text-gray-900 {
     color: var(--color-gray-900);
+  }
+  .text-white {
+    color: var(--color-white);
   }
   .capitalize {
     text-transform: capitalize;
