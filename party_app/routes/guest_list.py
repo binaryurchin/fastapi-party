@@ -65,3 +65,18 @@ def mark_guests_not_attending_partial(
         name="guest_list/partial_guest_list.html",
         context={"guests": guests}
     )
+
+@router.post("/filter", name="filter_guests_partial", response_class=HTMLResponse)
+def filter_guests_partial(
+        party_id: UUID,
+        request: Request,
+        templates: Templates,
+        session: Session = Depends(get_session),
+        guest_search: str = Form(...),
+):
+    guests = session.exec(select(Guest).where((Guest.party_id == party_id) & (Guest.name.ilike(f"%{guest_search}%")))).all()
+    return templates.TemplateResponse(
+        request=request,
+        name="guest_list/partial_guest_list.html",
+        context={"guests": guests, "party_id": party_id}
+    )

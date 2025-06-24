@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="w-2/5 bg-white shadow-md m-auto">
+<div class="bg-gray-50 p-4 grid grid-cols-2">
+    <div>
+        <input type="search"
+               class="p-2 bg-transparent"
+               name="guest_search"
+               hx-post="{{ url_for('filter_guests_partial',party_id=party_id) }}"
+               hx-target="#guests"
+               hx-trigger="keyup delay:500ms, search"
+        >
+    </div>
+</div>
     <form class="table text-left text-gray-500 table-fixed min-w-fit p-8" id="guest-form">
        <div class="table-row-group" id="guests">
           {% include 'guest_list/partial_guest_list.html' %}

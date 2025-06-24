@@ -468,6 +468,9 @@
   .bg-sky-200 {
     background-color: var(--color-sky-200);
   }
+  .bg-transparent {
+    background-color: transparent;
+  }
   .bg-white {
     background-color: var(--color-white);
   }

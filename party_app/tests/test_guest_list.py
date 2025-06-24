@@ -72,3 +72,25 @@ def test_mark_guests_not_attending_partial_returns_whole_list(
     assert guest_2.attending is True
     assert response.status_code == status.HTTP_200_OK
     assert response.context["guests"] == [guest_1, guest_2]
+
+def test_search_guests(
+        client: TestClient,
+        session: Session,
+        create_guest: Callable[..., Guest],
+        create_party: Callable[..., Party],
+):
+    party = create_party(session=session)
+    another_party = create_party(session=session, venue='Ahother Venue')
+
+    create_guest(session=session, party=party, name="Anna")
+    create_guest(session=session, party=party, name="Catherine")
+    create_guest(session=session, party=another_party, name="Anna")
+
+    url = app.url_path_for('filter_guests_partial', party_id=party.uuid)
+    data = {"guest_search": "An"}
+
+    response = client.post(url, data=data)
+
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.context["guests"]) == 1
+    assert response.context["guests"][0].name == "Anna"
